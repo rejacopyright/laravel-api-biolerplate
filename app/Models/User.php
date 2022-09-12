@@ -7,21 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Uuids, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -31,6 +30,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token',
     ];
 
     /**
@@ -40,5 +40,19 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'address' => 'array',
     ];
+
+    function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    function getJWTCustomClaims(){
+        return [];
+    }
+
+    static function boot(){
+        parent::boot();
+        static::generateId();
+    }
 }

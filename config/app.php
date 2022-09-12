@@ -8,8 +8,8 @@ return [
     'debug' => (bool) env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL'),
-    'timezone' => 'UTC',
-    'locale' => 'en',
+    'timezone' => 'Asia/Jakarta',
+    'locale' => 'id',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'key' => env('APP_KEY'),
@@ -46,6 +46,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
     'aliases' => Facade::defaultAliases()->merge([

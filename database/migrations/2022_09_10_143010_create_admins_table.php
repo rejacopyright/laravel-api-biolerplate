@@ -14,16 +14,14 @@ return new class extends Migration
     public function up()
     {
         $address = collect([ 'address' => '', 'city_id' => '', 'prov_id' => '', 'lat' => '', 'long' => '', ]);
-        Schema::dropIfExists('users');
-            Schema::create('users', function (Blueprint $table) use ($address) {
+        Schema::dropIfExists('admin');
+        Schema::create('admin', function (Blueprint $table) use($address) {
             $table->uuid('id')->primary();
-            // $table->uuid('user_id')->nullable();
+            // $table->uuid('admin_id')->nullable();
             $table->integer('role_id')->nullable();
             $table->string('username')->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('name')->nullable();
-            $table->string('ic_card')->nullable();
-            $table->string('ic_no')->nullable()->comment('Identity Card Number');
             $table->timestamp('birth')->nullable();
             $table->jsonb('address')->nullable()->default($address);
             $table->integer('gender')->nullable();
@@ -47,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admin');
     }
 };
